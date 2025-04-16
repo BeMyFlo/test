@@ -1,7 +1,10 @@
+const categoryMap = {};
 async function renderVx() {
   const row = document.querySelector(".row");
   try {
-    const response = await fetch("http://localhost:8000/api/booking/product/");
+    const response = await fetch(
+      "https://be-bpool.vercel.app/api/booking/product/"
+    );
     let vacxinList = await response.json();
     vacxinList = vacxinList.data;
 
@@ -11,11 +14,14 @@ async function renderVx() {
       row.innerHTML += `<div value="${vacxin._id}" class="vacxin_item">
           <div class="vacxin_item-label">
               <div class="vacxin_item_bg">
-                <img src="http://localhost:8000/uploads/${vacxin.image}" alt="${
-        vacxin.name
-      }" class="vacxin_img"/>
+                <img src="https://be-bpool.vercel.app/uploads/${
+                  vacxin.image
+                }" alt="${vacxin.name}" class="vacxin_img"/>
                   <div class="vacxin_item_info">
                       <p class="vacxin_name">${vacxin.name}</p>
+                      <p class="vacxin_category">Loại: ${
+                        categoryMap[vacxin.category] || "Chưa phân loại"
+                      }</p>
                       <p class="vacxin_prevention">${vacxin.prevention}</p>
                       <div class="vacxin-tag-price">
                           <span>${formatCurrency(vacxin.price)}</span>
@@ -55,6 +61,9 @@ async function renderVx() {
                   <p class="vacxin_oder_name">${vacxin.name}
                     <i class="ti-close" id="close${index}"></i>
                   </p>
+                  <p class="vacxin_category">Loại: ${
+                    categoryMap[vacxin.category] || "Chưa phân loại"
+                  }</p>
                   <h5>Phòng bệnh :
                     <div class="vacxin_oder_describe">${
                       vacxin.describe || vacxin.prevention
@@ -178,19 +187,6 @@ function cut_Height_divChoose(value) {
   vxchoose.style.height = parseInt(css.height) - value - 20 + "px";
 }
 
-function showCatelogy(element) {
-  const selectedCategory = element.getAttribute("value");
-  const vacxinListItems = document.querySelectorAll(".vacxin_item");
-  document.getElementById("info-vx").innerText = selectedCategory;
-  vacxinListItems.forEach(function (vacxin) {
-    if (vacxin.getAttribute("value") === selectedCategory) {
-      vacxin.style.display = "block";
-    } else {
-      vacxin.style.display = "none";
-    }
-  });
-}
-
 function closeFloating() {
   document.getElementById("floatingWorkingHours").style.display = "none";
 }
@@ -241,7 +237,9 @@ containermd.addEventListener("click", function (event) {
 
 async function renderVx_Manager() {
   let tbVendor = document.querySelector("#tbVendor");
-  const response = await fetch("http://localhost:8000/api/booking/product/");
+  const response = await fetch(
+    "https://be-bpool.vercel.app/api/booking/product/"
+  );
   let vacxinList = await response.json();
   vacxinList = vacxinList.data;
 
@@ -293,9 +291,10 @@ async function createVendor() {
   const price = document.getElementById("price").value;
   const prevention = document.getElementById("prevention").value;
   const image = document.getElementById("product-image").files[0];
+  const category = document.getElementById("category").value;
 
-  if (!name || !origin || !price || !prevention || !image) {
-    alert("Vui lòng điền đầy đủ thông tin và chọn ảnh!");
+  if (!name || !origin || !price || !prevention || !image || !category) {
+    alert("Vui lòng điền đầy đủ thông tin!");
     return;
   }
 
@@ -305,10 +304,11 @@ async function createVendor() {
   formData.append("price", price);
   formData.append("prevention", prevention);
   formData.append("image", image);
+  formData.append("category", category);
 
   try {
     const response = await fetch(
-      "http://localhost:8000/api/booking/product/create",
+      "https://be-bpool.vercel.app/api/booking/product/create",
       {
         method: "POST",
         body: formData,
@@ -328,8 +328,11 @@ async function createVendor() {
   }
 }
 
-window.onload = function () {
-  renderVx();
+window.onload = async function () {
+  await loadCategoriesToMap();
+  await renderVx();
+  await loadCategoriesToSelect();
+  updateLoginUI();
 };
 
 function editVendor(id) {
@@ -442,3 +445,217 @@ document
     const fileName = this.files[0]?.name || "Chưa chọn tệp nào";
     document.getElementById("file-name-preview").innerText = fileName;
   });
+
+function loadCategoriesToDropdown() {
+  fetch("https://be-bpool.vercel.app/api/booking/category")
+    .then((response) => response.json())
+    .then((data) => {
+      const dropdown = document.getElementById("categoryDropdown");
+      dropdown.innerHTML = ""; // Clear cũ
+      const list = data.data;
+      list.forEach((category) => {
+        const a = document.createElement("a");
+        a.textContent = category.name;
+        a.setAttribute("value", category._id);
+        a.onclick = () => showCatelogy(a);
+        dropdown.appendChild(a);
+      });
+    })
+    .catch((err) => {
+      console.error("Lỗi khi load danh mục:", err);
+    });
+}
+
+async function loadCategoriesToSelect() {
+  try {
+    const response = await fetch(
+      "https://be-bpool.vercel.app/api/booking/category"
+    );
+    const data = await response.json();
+    const categories = data.data;
+
+    const select = document.getElementById("category");
+    categories.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat._id;
+      option.textContent = cat.name;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Lỗi khi load danh mục:", err);
+  }
+}
+
+function showCatelogy(element) {
+  const selectedCategory = element.getAttribute("value");
+  renderVxByCategory(selectedCategory);
+}
+
+loadCategoriesToDropdown();
+
+async function renderVxByCategory(selectedCategory) {
+  const row = document.querySelector(".row");
+  try {
+    const response = await fetch(
+      "https://be-bpool.vercel.app/api/booking/product/" + selectedCategory
+    );
+    let vacxinList = await response.json();
+    vacxinList = vacxinList.data;
+
+    // Clear danh sách cũ trước khi render mới
+    row.innerHTML = "";
+    window.vacxinList = vacxinList;
+
+    // Render sản phẩm mới
+    vacxinList.forEach((vacxin, index) => {
+      row.innerHTML += `
+          <div value="${vacxin._id}" class="vacxin_item">
+            <div class="vacxin_item-label">
+              <div class="vacxin_item_bg">
+                <img src="https://be-bpool.vercel.app/uploads/${
+                  vacxin.image
+                }" alt="${vacxin.name}" class="vacxin_img"/>
+                <div class="vacxin_item_info">
+                  <p class="vacxin_name">${vacxin.name}</p>
+                  <p class="vacxin_category">Loại: ${
+                    categoryMap[vacxin.category] || "Chưa phân loại"
+                  }</p>
+                  <p class="vacxin_prevention">${vacxin.prevention}</p>
+                  <div class="vacxin-tag-price">
+                    <span>${formatCurrency(vacxin.price)}</span>
+                  </div>
+                  <div class='name_sick'>
+                    <h5>Phòng bệnh :</h5>
+                    <div class="describe">${vacxin.prevention}</div>
+                  </div>
+                </div>
+                <button id="btn${index}" class="btn">CHỌN</button>
+              </div>
+            </div>
+          </div>`;
+    });
+
+    // Add event click CHỌN cho từng sản phẩm
+    vacxinList.forEach((vacxin, index) => {
+      const btn = document.getElementById(`btn${index}`);
+      btn.addEventListener("click", function () {
+        let oder = document.querySelector(".vacxin-oder");
+        if (btn.classList.contains("selected")) {
+          btn.innerText = "CHỌN";
+          btn.classList.remove("selected");
+          let element = document.getElementById(`oder${index}`);
+          if (element) {
+            let heightElement = parseInt(getComputedStyle(element).height);
+            cut_Height_divChoose(heightElement);
+            element.remove();
+          }
+          total_pay -= vacxin.price;
+        } else {
+          btn.innerText = "ĐÃ CHỌN";
+          btn.classList.add("selected");
+          oder.innerHTML += `<div class="vacxin-oder-item" id="oder${index}">
+                <div class="vacxin_item_oder-info">
+                  <p class="vacxin_oder_name">${vacxin.name}
+                    <i class="ti-close" id="close${index}"></i>
+                  </p>
+                  <p class="vacxin_category">Loại: ${
+                    categoryMap[vacxin.category] || "Chưa phân loại"
+                  }</p>
+                  <h5>Phòng bệnh :
+                    <div class="vacxin_oder_describe">${
+                      vacxin.describe || vacxin.prevention
+                    }</div>
+                  </h5>
+                  <p class="vacxin_oder_prevention">${vacxin.prevention}</p>
+                  <div class="vacxin-oder-tag-price">
+                    <span>${formatCurrency(vacxin.price)}</span>
+                  </div>
+                </div>
+                <hr style="border-top: dotted 1px;" />
+              </div>`;
+          let element1 = document.getElementById(`oder${index}`);
+          let heightElement = parseInt(getComputedStyle(element1).height);
+          plus_Height_divChoose(heightElement);
+          total_pay += vacxin.price;
+        }
+        document.getElementById("pay-money").innerText =
+          formatCurrency(total_pay);
+        updateNoSelectionMessage();
+      });
+    });
+  } catch (error) {
+    console.error("Error fetching vaccines:", error);
+  }
+}
+async function loadCategoriesToMap() {
+  try {
+    const response = await fetch(
+      "https://be-bpool.vercel.app/api/booking/category"
+    );
+    const data = await response.json();
+    const categories = data.data;
+
+    window.categoryMap = {}; // global
+    categories.forEach((cat) => {
+      categoryMap[cat._id] = cat.name;
+    });
+  } catch (err) {
+    console.error("Lỗi khi load danh mục:", err);
+  }
+}
+
+function toggleLoginPopup() {
+  const popup = document.getElementById("login-popup");
+
+  if (popup) {
+    if (popup.style.display === "flex") {
+      popup.style.display = "none";
+    } else {
+      popup.style.display = "flex";
+    }
+  }
+}
+
+document
+  .getElementById("login-popup")
+  .addEventListener("click", function (event) {
+    event.stopPropagation();
+  });
+
+document
+  .querySelector(".user-icon")
+  .addEventListener("click", toggleLoginPopup);
+
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (username === "admin" && password === "123") {
+    localStorage.setItem("isAdmin", "true");
+    alert("Đăng nhập thành công!");
+    toggleLoginPopup();
+    updateLoginUI();
+  } else {
+    alert("Sai tài khoản hoặc mật khẩu!");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("isAdmin");
+  updateLoginUI();
+}
+
+function updateLoginUI() {
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const userIcon = document.querySelector(".user-icon");
+
+  if (isAdmin) {
+    userIcon.innerHTML = `<span onclick="logout()" style="cursor:pointer">Logout</span>`;
+    document.querySelector(".btnvx").style.display = "inline-block";
+    document.querySelector(".manage-prodct").style.display = "inline-block";
+  } else {
+    userIcon.innerHTML = `<i class="fas fa-user" onclick="toggleLoginPopup()"></i>`;
+    document.querySelector(".btnvx").style.display = "none";
+    document.querySelector(".manage-prodct").style.display = "none";
+  }
+}

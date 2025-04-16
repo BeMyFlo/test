@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000/api/booking/category/";
+const API_BASE = "https://be-bpool.vercel.app/api/booking/category";
 
 async function loadCategories() {
   try {
@@ -9,19 +9,22 @@ async function loadCategories() {
     const tableBody = document.getElementById("categoryTableBody");
     tableBody.innerHTML = "";
 
-    categories.forEach((category) => {
+    categories.forEach((category, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${category._id}</td>
-        <td contenteditable="true" onblur="updateCategory('${category._id}', this.innerText)">${category.name}</td>
+        <td>${index + 1}</td>
+        <td contenteditable="true" onblur="updateCategory('${
+          category._id
+        }', this.innerText)">${category.name}</td>
         <td>
-          <button class="delete-btn" onclick="deleteCategory('${category._id}')">Xoá</button>
+          <button class="delete-btn" onclick="deleteCategory('${
+            category._id
+          }')">Xoá</button>
         </td>
       `;
       tableBody.appendChild(row);
     });
   } catch (err) {
-    alert("Lỗi khi tải danh sách danh mục");
     console.error(err);
   }
 }
@@ -32,7 +35,7 @@ async function createCategory() {
   if (!name.trim()) return alert("Nhập tên danh mục");
 
   try {
-    await fetch(API_BASE, {
+    await fetch(API_BASE + "/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
