@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quản lý danh mục</title>
+    <link rel="stylesheet" href="category.css" />
+  </head>
+  <body>
+    <h1>Quản lý danh mục</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên danh mục</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+        <!-- Danh sách sẽ render ở đây -->
+      </tbody>
+    </table>
+
+    <!-- Nút tạo mới -->
+    <button class="open-modal-btn" onclick="openModal()">
+      Tạo danh mục mới
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="categoryModal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Tạo danh mục mới</h3>
+        <input
+          type="text"
+          id="newCategoryName"
+          placeholder="Nhập tên danh mục..."
+        />
+        <button onclick="createCategory()">Tạo mới</button>
+      </div>
+    </div>
+
+    <script src="category.js"></script>
+  </body>
+</html>

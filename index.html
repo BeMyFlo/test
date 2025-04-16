@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/themify-icons-font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="banner">
+                <!-- Logo Wrapper -->
+                <div class="logo-wrapper">
+                    <a href="/">
+                        <div class="logo">
+                            <div class="logo-placeholder">
+                                <img src="assets/img/logo.png" alt="">
+                            </div>
+                            <span class="logo-text">HCTTE</span>
+                        </div>
+                    </a>
+                </div>
+        
+                <div class="nav-links">
+                    <a href="#">TRANG CHỦ</a>
+                    <a href="category/category.html">DANH MỤC SẢN PHẨM</a>
+                    <a href="#">TRA CỨU</a>
+                    <a href="#">FAQ</a>
+                </div>
+        
+                <div class="box">
+                    <div class="container-1">
+                        <span class="icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        <input oninput="searchItemVx()" type="search" id="search" placeholder="Search..."/>
+                    </div>
+                </div>
+        
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        
+            <div class="mobile-menu" id="mobile-menu">
+                <a href="#">TRANG CHỦ</a>
+                <a href="#">DANH MỤC SẢN PHẨM</a>
+                <a href="#">TRA CỨU</a>
+                <a href="#">FAQ</a>
+            </div>
+        </header>
+        <div class="container">
+            <div class="menu">
+                <div link="#" class="dropdown">
+                    <button class="dropbtn">Danh mục</button>
+                    <div class="dropdown-content">
+                        <a onclick="showCatelogy(this)" value="Sản phẩm cho trẻ em">Sản phẩm cho trẻ em</a>
+                        <a onclick="showCatelogy(this)" value="Sản phẩm cho trẻ em tiền học đường">Sản phẩm cho trẻ em tiền học đường</a>
+                        <a onclick="showCatelogy(this)" value="Sản phẩm cho tuổi vị thành niên và thanh niên">Sản phẩm cho tuổi vị thành niên và thanh niên</a>
+                        <a onclick="showCatelogy(this)" value="Sản phẩm cho người trưởng thành">Sản phẩm cho người trưởng thành</a>
+                        <a onclick="showCatelogy(this)" value="Sản phẩm cho phụ nữ chuẩn bị trước mang thai">Sản phẩm cho phụ nữ chuẩn bị trước mang thai</a>
+                    </div>
+                </div>
+                <div>
+                    <button class="btnvx">Quản lý Sản phẩm</button>
+                </div>
+            </div>
+            <div class="info">
+                <h1 class="info_text"><b>THÔNG TIN SẢN PHẨM</b></h1>
+                <h2 id="info-vx"></h2>
+            </div>
+            <div class="colum">
+                <div class="row">
+                    
+                </div>
+                <div class="row1">
+                    <div id ="vxchoose" class="vacxin-choose">
+                        <div class="vacxin-choose-header">
+                            <span>DANH SÁCH SẢN PHẨM CHỌN MUA</span> <hr color="grey">
+                        </div>
+                        <div class="vacxin-oder">
+                            <p id="no-selection" style="text-align: center; color: gray;">Bạn chưa chọn sản phẩm nào</p>
+                        </div>
+                        <div class="vacxin-choose-footer">
+                            <div class="footer-total">
+                                <span>Tổng số tiền cần thanh toán</span>
+                            </div>
+                            <div class="footer-total-pay">
+                                <p id="pay-money"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn" id="btnOrder" onclick="order()">Đặt hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="model">
+            <div class="container-md">
+                <div class="vendor-create">
+                    <div class="form-group">
+                        <label for="item">Tên sản phẩm</label>
+                        <input type="text" id="item" class="form-control">
+                        <input type="hidden" id="vendorId" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="prevention">Phòng bệnh</label>
+                        <input type="text" id="prevention" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Nguồn gốc</label>
+                        <input type="text" id="quantity" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Giá</label>
+                        <input type="text" id="price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Ảnh sản phẩm</label>
+                        <input type="file" id="product-image" class="form-control" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label></label>
+                        <button class="btn-md btn-danger-2" id="btnCreate" onclick="createVendor()">Tạo mới</button>
+                        <button class="btn-md btn-danger d-none" id="btnSave" onclick="save()">Save</button>
+                        <button class="btn-md btn-dark d-none" id="btnCancel" onclick="cancel()">Cancel</button>
+                    </div>
+                </div>
+                <div class="vendor-items">
+                    <table class="table">
+                        <thead class="thead">
+                            <tr>
+                                <th>#ID</th>
+                                <th>Tên Sản phẩm</th>
+                                <th>Nguồn gốc</th>
+                                <th>Giá</th>
+                                <th>Phòng bệnh</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbVendor">
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <div class="logo-placeholder">
+                        <img src="assets/img/logo.png" alt="Logo">
+                    </div>
+                    <span class="logo-text">HCTTE</span>
+                </div>
+                <div class="footer-info">
+                    <h3>Sản phẩm</h3>
+                    <p>
+                        Chúng tôi cung cấp các sản phẩm vắc xin chất lượng cao với dịch vụ chăm sóc sức khỏe uy tín.
+                    </p>
+                    <div class="footer-contact">
+                        <div class="contact-item">
+                            <strong>Địa chỉ:</strong> 14-15A, tầng 7, tòa nhà Charmvit Tower, 117 Trần Duy Hưng, Trung Hòa, Cầu Giấy, Hà Nội
+                        </div>
+                        <div class="contact-item">
+                            <strong>Số điện thoại:</strong> <a href="tel:+84326839928">0326 839 928</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Email:</strong> <a href="mailto:hoanghaitechlonogynew@gmail.com">hoanghaitechlonogynew@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    </div>
+    <div class="working-hours-floating" id="floatingWorkingHours">
+        <div class="floating-content">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Giờ làm việc: Thứ 2 - CN, 7H30 - 17H00</span>
+            <button class="close-btn" onclick="closeFloating()">×</button>
+        </div>
+    </div>
+    <!-- Modal thanh toán -->
+    <div id="modal-payment-confirm" class="payment-modal">
+        <div class="payment-modal__content">
+        <span class="payment-modal__close" onclick="closeModalPayment()">×</span>
+        <h3>Quét mã QR để thanh toán</h3>
+        <img src="assets/img/qr.jpg" alt="QR Code" class="payment-modal__qr" />
+    
+        <div class="payment-upload">
+            <h4>Gửi minh chứng thanh toán</h4>
+            <label for="payment-proof-file" class="upload-label">
+              <i class="fas fa-upload"></i> Chọn ảnh minh chứng
+            </label>
+            <input type="file" id="payment-proof-file" accept="image/*,application/pdf" />
+            <span id="file-name-preview" class="file-name-preview">Chưa chọn tệp nào</span>
+        </div>
+    
+        <button class="payment-modal__btn" onclick="finishPayment()">Hoàn thành</button>
+    
+        <div id="payment-final-message" class="payment-final-message" style="display: none;">
+            <p style="color: green; margin-top: 15px;">
+            Cảm ơn bạn đã đặt hàng! Vui lòng gửi ảnh minh chứng đến <strong>Zalo: 0326 839 928</strong> để hoàn tất đơn hàng.
+            </p>
+        </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

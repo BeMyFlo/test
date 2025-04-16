@@ -1,0 +1,95 @@
+.header {
+    background-color: #0008e4; /* Màu xanh đậm của banner */
+    color: white;
+    position: relative;
+    overflow: hidden;
+    height: 150px; /* Chiều cao giống banner */
+}
+
+/* .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    animation: wave 10s linear infinite;
+} */
+
+@keyframes wave {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100px 100px;
+    }
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.logo img {
+    height: 60px; /* Kích thước logo */
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.info-item i {
+    font-size: 18px;
+    color: #b3d4fc; /* Màu biểu tượng */
+}
+
+.info-item span {
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        height: auto;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header-info {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .info-item {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+}
