@@ -14,9 +14,9 @@ async function renderVx() {
       row.innerHTML += `<div value="${vacxin._id}" class="vacxin_item">
           <div class="vacxin_item-label">
               <div class="vacxin_item_bg">
-                <img src="https://be-bpool.vercel.app/uploads/${
-                  vacxin.image
-                }" alt="${vacxin.name}" class="vacxin_img"/>
+                <img src="${vacxin.image}" alt="${
+        vacxin.name
+      }" class="vacxin_img"/>
                   <div class="vacxin_item_info">
                       <p class="vacxin_name">${vacxin.name}</p>
                       <p class="vacxin_category">Loại: ${
@@ -512,9 +512,9 @@ async function renderVxByCategory(selectedCategory) {
           <div value="${vacxin._id}" class="vacxin_item">
             <div class="vacxin_item-label">
               <div class="vacxin_item_bg">
-                <img src="https://be-bpool.vercel.app/uploads/${
-                  vacxin.image
-                }" alt="${vacxin.name}" class="vacxin_img"/>
+                <img src="${vacxin.image}" alt="${
+        vacxin.name
+      }" class="vacxin_img"/>
                 <div class="vacxin_item_info">
                   <p class="vacxin_name">${vacxin.name}</p>
                   <p class="vacxin_category">Loại: ${
