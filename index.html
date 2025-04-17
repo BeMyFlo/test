@@ -25,6 +25,8 @@
     />
     <link rel="stylesheet" href="assets/css/base.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/payment.css" />
+    <link rel="stylesheet" href="assets/css/loading.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -96,7 +98,6 @@
           <div class="dropdown">
             <button class="dropbtn">Danh mục</button>
             <div id="categoryDropdown" class="dropdown-content">
-              <!-- Các mục danh mục sẽ được load từ API -->
             </div>
           </div>
           <div>
@@ -110,7 +111,12 @@
           <h2 id="info-vx"></h2>
         </div>
         <div class="colum">
-          <div class="row"></div>
+          <div class="row">    
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p>Đang tải danh sách sản phẩm...</p>
+            </div>
+          </div>
           <div class="row1">
             <div id="vxchoose" class="vacxin-choose">
               <div class="vacxin-choose-header">
@@ -131,7 +137,7 @@
                 </div>
               </div>
               <div>
-                <button class="btn" id="btnOrder" onclick="order()">
+                <button class="btn-order" id="btnOrder" onclick="order()">
                   Đặt hàng
                 </button>
               </div>
@@ -239,40 +245,44 @@
     <!-- Modal thanh toán -->
     <div id="modal-payment-confirm" class="payment-modal">
       <div class="payment-modal__content">
-        <span class="payment-modal__close" onclick="closeModalPayment()"
-          >×</span
-        >
-        <h3>Quét mã QR để thanh toán</h3>
-        <img src="assets/img/qr.jpg" alt="QR Code" class="payment-modal__qr" />
-
+        <button class="payment-modal__close" onclick="closeModalPayment()">
+          <svg class="close-icon" viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="payment-modal__header">
+          <h3>Thanh toán qua mã QR</h3>
+          <p>Quét mã để hoàn tất thanh toán</p>
+        </div>
+        <div class="payment-modal__qr-container">
+          <img src="assets/img/qr.jpg" alt="QR Code" class="payment-modal__qr" />
+        </div>
+    
         <div class="payment-upload">
           <h4>Gửi minh chứng thanh toán</h4>
-          <label for="payment-proof-file" class="upload-label">
-            <i class="fas fa-upload"></i> Chọn ảnh minh chứng
-          </label>
-          <input
-            type="file"
-            id="payment-proof-file"
-            accept="image/*,application/pdf"
-          />
-          <span id="file-name-preview" class="file-name-preview"
-            >Chưa chọn tệp nào</span
-          >
+          <div class="upload-container">
+            <label for="payment-proof-file" class="upload-label">
+              <svg class="upload-icon" viewBox="0 0 24 24">
+                <path d="M3 17v4a2 2 0 002 2h14a2 2 0 002-2v-4M12 3v12m0-12l-4 4m4-4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Chọn ảnh minh chứng
+            </label>
+          </div>
+          <input type="file" id="payment-proof-file" accept="image/*,application/pdf" />
+          <span id="file-name-preview" class="file-name-preview">Chưa chọn tệp nào</span>
         </div>
-
-        <button class="payment-modal__btn" onclick="finishPayment()">
-          Hoàn thành
-        </button>
-
-        <div
-          id="payment-final-message"
-          class="payment-final-message"
-          style="display: none"
-        >
-          <p style="color: green; margin-top: 15px">
-            Cảm ơn bạn đã đặt hàng! Vui lòng gửi ảnh minh chứng đến
-            <strong>Zalo: 0326 839 928</strong> để hoàn tất đơn hàng.
-          </p>
+    
+        <div class="upload-container">
+          <button class="payment-modal__btn" onclick="finishPayment()">Hoàn thành</button>
+        </div>
+    
+        <div id="payment-final-message" class="payment-final-message" style="display: none">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p>Cảm ơn bạn đã đặt hàng! Vui lòng gửi ảnh minh chứng đến <strong>Zalo: 0326 839 928</strong> để hoàn tất đơn hàng.</p>
         </div>
       </div>
     </div>

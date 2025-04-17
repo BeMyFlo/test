@@ -1,12 +1,22 @@
 const categoryMap = {};
 async function renderVx() {
   const row = document.querySelector(".row");
+  
+  row.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Đang tải danh sách vắc-xin...</p>
+    </div>
+  `;
+
   try {
     const response = await fetch(
       "https://be-bpool.vercel.app/api/booking/product/"
     );
     let vacxinList = await response.json();
     vacxinList = vacxinList.data;
+
+    row.innerHTML = '';
 
     window.vacxinList = vacxinList;
 
@@ -32,6 +42,7 @@ async function renderVx() {
                               ${vacxin.prevention}
                           </div>
                       </div>
+                      <a href="product/product.html?id=${vacxin._id}" class="detail-link">Xem chi tiết</a>
                   </div>
                   <button id="btn${index}" class="btn">CHỌN</button>
               </div>
@@ -88,6 +99,11 @@ async function renderVx() {
     });
   } catch (error) {
     console.error("Error fetching vaccines:", error);
+    row.innerHTML = `
+      <div class="loading-container">
+        <p style="color: #e53e3e">Có lỗi khi tải danh sách vắc-xin. Vui lòng thử lại sau.</p>
+      </div>
+    `;
   }
 }
 

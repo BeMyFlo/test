@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết sản phẩm</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../assets/fonts/themify-icons-font/themify-icons/themify-icons.css"
+    />
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../assets/css/loading.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      .product-detail-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .product-detail {
+        display: flex;
+        gap: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .product-image img {
+        max-width: 400px;
+        width: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .product-info {
+        flex: 1;
+      }
+
+      .product-info h1 {
+        color: #003087;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .product-info p {
+        color: #64748b;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .product-price {
+        color: #003087;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin: 1rem 0;
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn-select {
+        background-color: #003087;
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .btn-select:hover {
+        background-color: #002266;
+        transform: translateY(-2px);
+      }
+
+      .btn-back {
+        background-color: #64748b;
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .btn-back:hover {
+        background-color: #475569;
+        transform: translateY(-2px);
+      }
+
+      .loading-container,
+      .error-container {
+        text-align: center;
+        padding: 4rem 0;
+      }
+
+      @media (max-width: 768px) {
+        .product-detail {
+          flex-direction: column;
+        }
+        .product-image img {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="banner">
+          <div class="logo-wrapper">
+            <a href="/">
+              <div class="logo">
+                <div class="logo-placeholder">
+                  <img src="../assets/img/logo.png" alt="" />
+                </div>
+                <span class="logo-text">HCTTE</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="nav-links">
+            <a href="#">TRANG CHỦ</a>
+            <a href="category/category.html" class="manage-prodct" style="display: none">DANH MỤC SẢN PHẨM</a>
+            <a href="#">TRA CỨU</a>
+            <a href="#">FAQ</a>
+          </div>
+
+          <div class="box">
+            <div class="container-1">
+              <span class="icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+              <input oninput="searchItemVx()" type="search" id="search" placeholder="Search..." />
+            </div>
+          </div>
+
+          <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          <div class="user-icon" onclick="toggleLoginPopup()">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+          <a href="#">TRANG CHỦ</a>
+          <a href="#">DANH MỤC SẢN PHẨM</a>
+          <a href="#">TRA CỨU</a>
+          <a href="#">FAQ</a>
+        </div>
+      </header>
+
+      <div class="product-detail-container">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Đang tải thông tin sản phẩm...</p>
+        </div>
+        <div class="product-detail" style="display: none;">
+          <div class="product-image">
+            <img id="product-image" src="" alt="Product Image" />
+          </div>
+          <div class="product-info">
+            <h1 id="product-name"></h1>
+            <p id="product-category"></p>
+            <p id="product-prevention"></p>
+            <p id="product-origin"></p>
+            <p id="product-description"></p>
+            <div class="product-price" id="product-price"></div>
+            <div class="product-actions">
+              <button class="btn-select" onclick="selectProduct()">CHỌN</button>
+              <button class="btn-back" onclick="window.history.back()">QUAY LẠI</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-logo">
+            <div class="logo-placeholder">
+              <img src="../assets/img/logo.png" alt="Logo" />
+            </div>
+            <span class="logo-text">HCTTE</span>
+          </div>
+          <div class="footer-info">
+            <h3>Sản phẩm</h3>
+            <p>
+              Chúng tôi cung cấp các sản phẩm vắc xin chất lượng cao với dịch vụ
+              chăm sóc sức khỏe uy tín.
+            </p>
+            <div class="footer-contact">
+              <div class="contact-item">
+                <strong>Địa chỉ:</strong> 14-15A, tầng 7, tòa nhà Charmvit Tower,
+                117 Trần Duy Hưng, Trung Hòa, Cầu Giấy, Hà Nội
+              </div>
+              <div class="contact-item">
+                <strong>Số điện thoại:</strong>
+                <a href="tel:+84326839928">0326 839 928</a>
+              </div>
+              <div class="contact-item">
+                <strong>Email:</strong>
+                <a href="mailto:hoanghaitechlonogynew@gmail.com"
+                  >hoanghaitechlonogynew@gmail.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      async function loadProductDetail() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const productDetail = document.querySelector('.product-detail');
+        const loadingContainer = document.querySelector('.loading-container');
+
+        if (!productId) {
+          loadingContainer.innerHTML = `
+            <div class="error-container">
+              <p style="color: #e53e3e">Không tìm thấy sản phẩm.</p>
+            </div>
+          `;
+          return;
+        }
+
+        try {
+        //   const BASE_URL = 'https://be-bpool.vercel.app/';
+          const BASE_URL = 'http://localhost:8000/';
+          const response = await fetch(
+            BASE_URL + `api/booking/product/${productId}`
+          );
+          const product = await response.json();
+
+          if (!product.data) {
+            throw new Error('Product not found');
+          }
+
+          const data = product.data;
+
+          document.getElementById('product-image').src = data.image;
+          document.getElementById('product-name').textContent = data.name;
+          document.getElementById('product-category').textContent = `Loại: ${categoryMap[data.category] || 'Chưa phân loại'}`;
+          document.getElementById('product-prevention').textContent = `Phòng bệnh: ${data.prevention}`;
+          document.getElementById('product-origin').textContent = `Nguồn gốc: ${data.origin || 'Không xác định'}`;
+          document.getElementById('product-description').textContent = `Mô tả: ${data.describe || data.prevention}`;
+          document.getElementById('product-price').textContent = formatCurrency(data.price);
+
+          loadingContainer.style.display = 'none';
+          productDetail.style.display = 'flex';
+        } catch (error) {
+          console.error('Error fetching product:', error);
+          loadingContainer.innerHTML = `
+            <div class="error-container">
+              <p style="color: #e53e3e">Có lỗi khi tải thông tin sản phẩm. Vui lòng thử lại sau.</p>
+            </div>
+          `;
+        }
+      }
+
+      function selectProduct() {
+        // This function would need to be implemented to add the product to the cart
+        // Similar to the click handler in renderVx
+        alert('Chức năng chọn sản phẩm đang được phát triển!');
+      }
+
+      // Assuming formatCurrency and categoryMap are defined globally
+      // If not, you'll need to include these functions
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+      }
+
+      const categoryMap = {
+        // Add your category mappings here
+        'type1': 'Loại 1',
+        'type2': 'Loại 2'
+        // ... add more as needed
+      };
+
+      // Load product details when page loads
+      window.onload = loadProductDetail;
+    </script>
+  </body>
+</html>

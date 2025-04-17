@@ -535,6 +535,20 @@ h5 {
   width: 100%;
 }
 
+.btn-order {
+  background: linear-gradient(135deg, #003087, #1a3f9b);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  width: 100%;
+}
+
 .btn:hover {
   background: linear-gradient(135deg, #1a3f9b, #003087);
   transform: scale(1.03);
@@ -1008,105 +1022,6 @@ h5 {
   }
 }
 
-.payment-modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.payment-modal__content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  /* cho scroll */
-  overflow-y: auto;
-  max-height: 90vh;
-}
-
-.payment-modal__close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.payment-modal__qr {
-  width: 250px;
-  max-width: 100%;
-  margin: 20px auto;
-}
-
-.payment-modal__btn {
-  margin-top: 15px;
-  background-color: #0a74da;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.payment-modal__btn:hover {
-  background-color: #065ec2;
-}
-
-.payment-download {
-  margin-top: 20px;
-}
-.payment-final-message {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-top: 10px;
-}
-
-.payment-upload {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.upload-label {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  font-weight: 500;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.upload-label:hover {
-  background-color: #45a049;
-}
-
-.upload-label i {
-  margin-right: 8px;
-}
-
-#payment-proof-file {
-  display: none;
-}
-
-.file-name-preview {
-  display: block;
-  margin-top: 10px;
-  color: #555;
-  font-size: 14px;
-  font-style: italic;
-}
 .user-icon {
   cursor: pointer;
   font-size: 24px;
