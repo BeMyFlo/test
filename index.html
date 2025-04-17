@@ -97,8 +97,7 @@
         <div class="menu">
           <div class="dropdown">
             <button class="dropbtn">Danh mục</button>
-            <div id="categoryDropdown" class="dropdown-content">
-            </div>
+            <div id="categoryDropdown" class="dropdown-content"></div>
           </div>
           <div>
             <button class="btnvx" style="display: none">
@@ -111,7 +110,7 @@
           <h2 id="info-vx"></h2>
         </div>
         <div class="colum">
-          <div class="row">    
+          <div class="row">
             <div class="loading-container">
               <div class="loading-spinner"></div>
               <p>Đang tải danh sách sản phẩm...</p>
@@ -157,6 +156,7 @@
             <div class="form-group">
               <label for="category">Danh mục</label>
               <select id="category" class="form-control">
+                <!-- Tăng kích thước chữ -->
                 <option value="">-- Chọn danh mục --</option>
               </select>
             </div>
@@ -180,6 +180,10 @@
                 class="form-control"
                 accept="image/*"
               />
+            </div>
+            <div class="form-group">
+              <label for="link">Link demo</label>
+              <input type="text" id="link" class="form-control" />
             </div>
             <div class="form-group">
               <label></label>
@@ -247,7 +251,12 @@
       <div class="payment-modal__content">
         <button class="payment-modal__close" onclick="closeModalPayment()">
           <svg class="close-icon" viewBox="0 0 24 24">
-            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path
+              d="M18 6L6 18M6 6l12 12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
         <div class="payment-modal__header">
@@ -255,34 +264,64 @@
           <p>Quét mã để hoàn tất thanh toán</p>
         </div>
         <div class="payment-modal__qr-container">
-          <img src="assets/img/qr.jpg" alt="QR Code" class="payment-modal__qr" />
+          <img
+            src="assets/img/qr.jpg"
+            alt="QR Code"
+            class="payment-modal__qr"
+          />
         </div>
-    
+
         <div class="payment-upload">
           <h4>Gửi minh chứng thanh toán</h4>
           <div class="upload-container">
             <label for="payment-proof-file" class="upload-label">
               <svg class="upload-icon" viewBox="0 0 24 24">
-                <path d="M3 17v4a2 2 0 002 2h14a2 2 0 002-2v-4M12 3v12m0-12l-4 4m4-4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path
+                  d="M3 17v4a2 2 0 002 2h14a2 2 0 002-2v-4M12 3v12m0-12l-4 4m4-4l4 4"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
               </svg>
               Chọn ảnh minh chứng
             </label>
           </div>
-          <input type="file" id="payment-proof-file" accept="image/*,application/pdf" />
-          <span id="file-name-preview" class="file-name-preview">Chưa chọn tệp nào</span>
+          <input
+            type="file"
+            id="payment-proof-file"
+            accept="image/*,application/pdf"
+          />
+          <span id="file-name-preview" class="file-name-preview"
+            >Chưa chọn tệp nào</span
+          >
         </div>
-    
+
         <div class="upload-container">
-          <button class="payment-modal__btn" onclick="finishPayment()">Hoàn thành</button>
+          <button class="payment-modal__btn" onclick="finishPayment()">
+            Hoàn thành
+          </button>
         </div>
-    
-        <div id="payment-final-message" class="payment-final-message" style="display: none">
+
+        <div
+          id="payment-final-message"
+          class="payment-final-message"
+          style="display: none"
+        >
           <div class="success-icon">
             <svg viewBox="0 0 24 24">
-              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M20 6L9 17l-5-5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
-          <p>Cảm ơn bạn đã đặt hàng! Vui lòng gửi ảnh minh chứng đến <strong>Zalo: 0326 839 928</strong> để hoàn tất đơn hàng.</p>
+          <p>
+            Cảm ơn bạn đã đặt hàng! Vui lòng gửi ảnh minh chứng đến
+            <strong>Zalo: 0326 839 928</strong> để hoàn tất đơn hàng.
+          </p>
         </div>
       </div>
     </div>

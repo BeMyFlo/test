@@ -831,6 +831,10 @@ h5 {
   font-size: 1rem;
 }
 
+#category {
+  font-size: 14px;
+}
+
 /* Button group */
 .vendor-create .form-group:last-child {
   display: flex;

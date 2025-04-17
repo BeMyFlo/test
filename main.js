@@ -1,7 +1,7 @@
 const categoryMap = {};
 async function renderVx() {
   const row = document.querySelector(".row");
-  
+
   row.innerHTML = `
     <div class="loading-container">
       <div class="loading-spinner"></div>
@@ -16,7 +16,7 @@ async function renderVx() {
     let vacxinList = await response.json();
     vacxinList = vacxinList.data;
 
-    row.innerHTML = '';
+    row.innerHTML = "";
 
     window.vacxinList = vacxinList;
 
@@ -37,12 +37,14 @@ async function renderVx() {
                           <span>${formatCurrency(vacxin.price)}</span>
                       </div>
                       <div class='name_sick'>
-                          <h5>Phòng bệnh :</h5>
+                          <h5>Hỗ trợ :</h5>
                           <div class="describe">
                               ${vacxin.prevention}
                           </div>
                       </div>
-                      <a href="product/product.html?id=${vacxin._id}" class="detail-link">Xem chi tiết</a>
+                      <a href="${
+                        vacxin.link
+                      }" class="detail-link"  target="_blank">Link demo</a>
                   </div>
                   <button id="btn${index}" class="btn">CHỌN</button>
               </div>
@@ -75,7 +77,7 @@ async function renderVx() {
                   <p class="vacxin_category">Loại: ${
                     categoryMap[vacxin.category] || "Chưa phân loại"
                   }</p>
-                  <h5>Phòng bệnh :
+                  <h5>Hỗ trợ :
                     <div class="vacxin_oder_describe">${
                       vacxin.describe || vacxin.prevention
                     }</div>
@@ -139,7 +141,7 @@ btns.forEach((btn, index) => {
                                 }
                                 <i class="ti-close" id="close${index}"></i>
                                 </p>
-                                <h5>Phòng bệnh :
+                                <h5>Hỗ trợ :
                                     <div class="vacxin_oder_describe">
                                     ${vacxinList[index].describe}
                                     </div>
@@ -308,6 +310,7 @@ async function createVendor() {
   const prevention = document.getElementById("prevention").value;
   const image = document.getElementById("product-image").files[0];
   const category = document.getElementById("category").value;
+  const link = document.getElementById("link").value;
 
   if (!name || !origin || !price || !prevention || !image || !category) {
     alert("Vui lòng điền đầy đủ thông tin!");
@@ -321,10 +324,12 @@ async function createVendor() {
   formData.append("prevention", prevention);
   formData.append("image", image);
   formData.append("category", category);
+  formData.append("link", link);
 
   try {
     const response = await fetch(
-      "https://be-bpool.vercel.app/api/booking/product/create",
+      "http://localhost:8000/api/booking/product/create",
+      //   "https://be-bpool.vercel.app/api/booking/product/create",
       {
         method: "POST",
         body: formData,
@@ -541,10 +546,13 @@ async function renderVxByCategory(selectedCategory) {
                     <span>${formatCurrency(vacxin.price)}</span>
                   </div>
                   <div class='name_sick'>
-                    <h5>Phòng bệnh :</h5>
+                    <h5>Hỗ trợ :</h5>
                     <div class="describe">${vacxin.prevention}</div>
                   </div>
                 </div>
+                <a href="${
+                  vacxin.link
+                }" class="detail-link"  target="_blank">Link demo</a>
                 <button id="btn${index}" class="btn">CHỌN</button>
               </div>
             </div>
@@ -577,7 +585,7 @@ async function renderVxByCategory(selectedCategory) {
                   <p class="vacxin_category">Loại: ${
                     categoryMap[vacxin.category] || "Chưa phân loại"
                   }</p>
-                  <h5>Phòng bệnh :
+                  <h5>Hỗ trợ :
                     <div class="vacxin_oder_describe">${
                       vacxin.describe || vacxin.prevention
                     }</div>
